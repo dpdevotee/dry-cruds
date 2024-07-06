@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "dry-cruds"
+version = "0.1.0"
+description = ""
+authors = ["DPdevotee <dpdevotee@example.com>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^5.0.6"
+psycopg2 = "*"
+django-tables2 = "*"
+django-filter = "*"
+django-crispy-forms = "*"
+crispy-bootstrap5 = "*"
+django-select2 = "*"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest-django = "*"
+mypy = "*"
+ruff = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+# Add the `line-too-long` rule to the enforced rule set. By default, Ruff omits rules that
+# overlap with the use of a formatter, like Black, but we can override this behavior by
+# explicitly adding the rule.
+extend-select = ["E501"]
+

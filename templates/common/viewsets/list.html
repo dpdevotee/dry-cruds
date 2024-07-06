@@ -1,0 +1,16 @@
+{% extends 'common/base.html' %}
+
+{% block content %}
+  <h1>Example objects</h1>
+
+  <ul>
+    {% for object in object_list %}
+      <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
+    {% empty %}
+      No example yet in the database.
+    {% endfor %}
+  </ul>
+  {% for button in view.get_links %}
+    {{ button }}
+  {% endfor %}
+{% endblock %}

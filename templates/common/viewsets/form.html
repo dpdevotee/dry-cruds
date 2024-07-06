@@ -1,0 +1,19 @@
+{% extends 'common/base.html' %}
+{% load crispy_forms_tags %}
+{% load django_tables2 %}
+
+{% block content %}
+{{ form.media.css }}
+<div class="container">
+  <form method="POST" novalidate>
+    {{ form|crispy }}
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary">Save</button>
+    {% for button in view.get_links %}
+      {{ button }}
+    {% endfor %}
+
+  </form>
+</div>
+{{ form.media.js }}
+{% endblock %}

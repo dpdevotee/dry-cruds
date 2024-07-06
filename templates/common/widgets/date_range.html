@@ -1,0 +1,9 @@
+<div class="input-group">
+  <input type="text" name="{{ widget.name }}_after" {% if widget.subwidgets.0.value != None %}
+         value="{{ widget.subwidgets.0.value|stringformat:'s' }}" {% endif %} class="form-control" placeholder="After"
+         data-provide="datepicker" data-date-format="yyyy-mm-dd">
+  <span class="input-group-text">-</span>
+  <input type="text" name="{{ widget.name }}_before" {% if widget.subwidgets.1.value != None %}
+         value="{{ widget.subwidgets.1.value|stringformat:'s' }}" {% endif %} class="form-control" placeholder="Before"
+         data-provide="datepicker" data-date-format="yyyy-mm-dd">
+</div>

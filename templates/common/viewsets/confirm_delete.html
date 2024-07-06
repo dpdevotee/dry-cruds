@@ -1,0 +1,15 @@
+{% extends 'common/base.html' %}
+{% block content %}
+  <h1>Warning</h1>
+
+  Are you sure you want to delete “{{ object }}”?
+
+  <form method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Yes</button>
+    {% for button in view.get_links %}
+      {{ button }}
+    {% endfor %}
+
+  </form>
+{% endblock %}
