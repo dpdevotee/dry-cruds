@@ -1,9 +1,11 @@
-from common.viewset import TableViewSet
-from .models import Employee
-from .forms import EmployeeForm
-from django_tables2 import Table
 from django_filters import CharFilter, FilterSet
+from django_tables2 import Table
+
 from common.filters import DateFromToRangeFilter, RangeFilter
+from common.viewset import TableViewSet
+
+from .forms import EmployeeForm
+from .models import Employee
 
 
 class EmployeeTable(Table):

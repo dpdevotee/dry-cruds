@@ -1,13 +1,14 @@
 from typing import Type
-from django.urls import reverse
-from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
-from django.urls import re_path
-from django.db import models
-from .buttons import ButtonLink
+
 from django import forms
-from django_tables2 import SingleTableMixin, Table, Column, A
+from django.db import models
+from django.urls import re_path, reverse
+from django.views.generic import CreateView, DeleteView, UpdateView
 from django_filters import FilterSet
 from django_filters.views import FilterView
+from django_tables2 import A, Column, SingleTableMixin, Table
+
+from .buttons import ButtonLink
 
 PK = r"(?P<pk>\d+)"
 

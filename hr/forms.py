@@ -1,6 +1,7 @@
 from django import forms
-from .models import Employee
 from django_select2 import forms as s2forms
+
+from .models import Employee
 
 
 class JobWidget(s2forms.ModelSelect2Widget):

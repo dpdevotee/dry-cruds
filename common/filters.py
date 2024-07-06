@@ -1,7 +1,7 @@
 from django_filters import DateFromToRangeFilter as StandardDateFromToRangeFilter
 from django_filters import RangeFilter as StandardRangeFilter
 
-from .fields import RangeField, DateRangeField
+from .fields import DateRangeField, RangeField
 
 
 class DateFromToRangeFilter(StandardDateFromToRangeFilter):

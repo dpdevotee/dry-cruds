@@ -1,6 +1,7 @@
 .PHONY: fmt style db-start db-stop db-shell
 
 fmt:
+	ruff check --select I --fix
 	ruff format
 
 style:
