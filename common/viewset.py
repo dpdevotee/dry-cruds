@@ -1,10 +1,13 @@
 from typing import Type
 from django.urls import reverse
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 from django.urls import re_path
 from django.db import models
 from .buttons import ButtonLink
 from django import forms
+from django_tables2 import SingleTableMixin, Table, Column, A
+from django_filters import FilterSet
+from django_filters.views import FilterView
 
 PK = r"(?P<pk>\d+)"
 
@@ -12,15 +15,20 @@ PK = r"(?P<pk>\d+)"
 class TableViewSet:
     def __init__(
         self,
+        *,
         model: Type[models.Model],
+        table_class: Type[Table],
+        filterset_class: Type[FilterSet],
+        form_class: Type[forms.ModelForm],
         base_url_pattern: str,
         base_url_name: str,
-        form_class: Type[forms.ModelForm],
     ):
         self.model = model
+        self.table_class = table_class
+        self.filterset_class = filterset_class
+        self.form_class = form_class
         self.base_url_pattern = base_url_pattern
         self.base_url_name = base_url_name
-        self.form_class = form_class
 
     @property
     def list_url_name(self):
@@ -45,9 +53,21 @@ class TableViewSet:
     def _build_list_url(self):
         view_set = self
 
-        class NewView(ListView):
+        class TableWithLinks(self.table_class):
+            pk = Column(verbose_name="ID", accessor="pk", orderable=False, linkify=(self.detail_url_name, (A("pk"),)))
+
+            class Meta:
+                template_name = "django_tables2/bootstrap5.html"
+                sequence = ("pk", "...")
+
+        class NewView(SingleTableMixin, FilterView):
             model = self.model
+            table_class = TableWithLinks
+            filterset_class = self.filterset_class
             template_name = "common/viewsets/list.html"
+            paginate_by = 10
+            ordering = "pk"
+            header = self.model._meta.verbose_name_plural.capitalize()
 
             def get_links(self):
                 return [
@@ -63,8 +83,15 @@ class TableViewSet:
     def _build_detail_url(self):
         view_set = self
 
-        class NewView(DetailView):
+        class DisabledForm(self.form_class):
+            def __init__(self, *args, **kwargs):
+                super().__init__(*args, **kwargs)
+                for field in self.fields:
+                    self.fields[field].disabled = True
+
+        class NewView(UpdateView):
             model = self.model
+            form_class = DisabledForm
             template_name = "common/viewsets/detail.html"
 
             def get_links(self):

@@ -1,15 +1,34 @@
 {% extends 'common/base.html' %}
+{% load i18n l10n %}
+{% load crispy_forms_tags %}
+{% load django_tables2 %}
 
 {% block content %}
-  <h1>Example objects</h1>
+  <h1 class="mt-5 mb-4"> {{ view.header }} </h1>
+  <div class="table-container">
+    <form method="get">
+      <div class="card">
+        <div class="card-body">
+          <div class="row g-3">
+            {% for field in filter.form %}
+            <div class="col-2">
+              {{ field|as_crispy_field }}
+            </div>
+            {% endfor %}
+          </div>
+          <div class="row g-3">
+            <div class="col-2">
+              <div class="mb-3">
+                <input type="submit" class="btn btn-primary" value="Submit"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    {% render_table table %}
+  </div>
 
-  <ul>
-    {% for object in object_list %}
-      <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
-    {% empty %}
-      No example yet in the database.
-    {% endfor %}
-  </ul>
   {% for button in view.get_links %}
     {{ button }}
   {% endfor %}

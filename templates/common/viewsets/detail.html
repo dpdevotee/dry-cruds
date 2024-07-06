@@ -1,11 +1,12 @@
 {% extends 'common/base.html' %}
+{% load crispy_forms_tags %}
+{% load django_tables2 %}
 
 {% block content %}
-  <h1>{{ object }}</h1>
-  <p>{{ object.content }}</p>
 
-  {% for button in view.get_links %}
-    {{ button }}
-  {% endfor %}
+{{ form|crispy }}
+{% for button in view.get_links %}
+  {{ button }}
+{% endfor %}
 
 {% endblock %}

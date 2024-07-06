@@ -66,9 +66,6 @@ class Employee(models.Model):
     manager = models.ForeignKey("Employee", null=True, on_delete=models.CASCADE)
     department = models.ForeignKey("Department", on_delete=models.CASCADE)
 
-    def get_absolute_url(self):
-        return reverse("employees_detail", args=(self.pk,))
-
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
