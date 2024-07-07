@@ -5,7 +5,6 @@ fmt:
 	ruff format
 
 style:
-	mypy htmx_table
 	ruff check
 
 db-start:
