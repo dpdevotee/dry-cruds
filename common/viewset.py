@@ -2,6 +2,7 @@ from typing import Type
 
 from django import forms
 from django.db import models
+from django.http import HttpResponseNotAllowed
 from django.urls import re_path, reverse
 from django.views.generic import CreateView, DeleteView, UpdateView
 from django_filters import FilterSet
@@ -94,6 +95,9 @@ class TableViewSet:
             model = self.model
             form_class = DisabledForm
             template_name = "common/viewsets/detail.html"
+
+            def post(self, request, *args, **kwargs):
+                return HttpResponseNotAllowed(["GET", "HEAD", "OPTIONS"])
 
             def get_links(self):
                 return [

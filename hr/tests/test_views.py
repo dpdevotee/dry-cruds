@@ -68,6 +68,19 @@ def test_employees_detail_view_shows_employee(client, employee_factory):
 
 
 @pytest.mark.django_db
+def test_employees_detail_view_cannot_change_employee(client, employee_factory):
+    # given
+    employee = employee_factory()
+
+    # when
+    response = client.post(f"/employees/{employee.pk}/")
+
+    # then
+    assert response.status_code == 405
+    assert response["Allow"] == "GET, HEAD, OPTIONS"
+
+
+@pytest.mark.django_db
 def test_employees_create_view_creates_employee(client, employee_factory):
     # given
     manager = employee_factory()
