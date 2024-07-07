@@ -71,11 +71,11 @@ def test_employees_detail_view_cannot_change_employee(client, employee_factory):
     employee = employee_factory()
 
     # when
-    response = client.post(f"/employees/{employee.pk}/")
+    response = client.patch(f"/employees/{employee.pk}/")
 
     # then
     assert response.status_code == 405
-    assert response["Allow"] == "GET, HEAD, OPTIONS"
+    assert response["Allow"] == "GET, OPTIONS"
 
 
 @pytest.mark.django_db
