@@ -10,6 +10,9 @@ class ButtonLink:
         self.args = args
         self.kwargs = kwargs
 
+    @property
+    def url(self):
+        return reverse(self.url_name, args=self.args, kwargs=self.kwargs)
+
     def __str__(self):
-        url = reverse(self.url_name, args=self.args, kwargs=self.kwargs)
-        return mark_safe(f'<a class="{self.css_classes}" href="{url}">' f"{self.text}" "</a>")
+        return mark_safe(f'<a class="{self.css_classes}" href="{self.url}">' f"{self.text}" "</a>")

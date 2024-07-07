@@ -73,7 +73,7 @@ class TableViewSet:
             def get_links(self):
                 return [
                     ButtonLink(
-                        text="Create new item",
+                        text="Create",
                         css_classes="btn btn-primary",
                         url_name=view_set.create_url_name,
                     ),
@@ -120,11 +120,15 @@ class TableViewSet:
 
     def _build_create_url(self):
         view_set = self
+        success_url_name = self.detail_url_name
 
         class NewView(CreateView):
             model = self.model
             template_name = "common/viewsets/form.html"
             form_class = self.form_class
+
+            def get_success_url(self):
+                return reverse(success_url_name, args=(self.object.pk,))
 
             def get_links(self):
                 return [
@@ -135,11 +139,15 @@ class TableViewSet:
 
     def _build_update_url(self):
         view_set = self
+        success_url_name = self.detail_url_name
 
         class NewView(UpdateView):
             model = self.model
             template_name = "common/viewsets/form.html"
             form_class = self.form_class
+
+            def get_success_url(self):
+                return reverse(success_url_name, args=(self.object.pk,))
 
             def get_links(self):
                 return [
@@ -155,7 +163,7 @@ class TableViewSet:
 
     def _build_delete_url(self):
         view_set = self
-        success_url_name = f"{self.base_url_name}_index"
+        success_url_name = self.list_url_name
 
         class NewView(DeleteView):
             model = self.model

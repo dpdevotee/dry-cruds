@@ -21,6 +21,7 @@ django-select2 = "*"
 pytest-django = "*"
 mypy = "*"
 ruff = "*"
+factory-boy = "*"
 
 [build-system]
 requires = ["poetry-core"]
@@ -35,3 +36,6 @@ line-length = 120
 # explicitly adding the rule.
 extend-select = ["E501"]
 
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "dry_cruds.settings"
+python_files = "test_*.py"
