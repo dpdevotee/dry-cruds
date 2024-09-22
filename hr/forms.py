@@ -1,7 +1,7 @@
 from django import forms
 from django_select2 import forms as s2forms
 
-from .models import Employee
+from .models import Employee, Job
 
 
 class JobWidget(s2forms.ModelSelect2Widget):
@@ -32,3 +32,9 @@ class EmployeeForm(forms.ModelForm):
             "manager": ManagerWidget,
             "department": DepartmentWidget,
         }
+
+
+class JobForm(forms.ModelForm):
+    class Meta:
+        model = Job
+        fields = "__all__"

@@ -1,7 +1,7 @@
 import pytest
 from django.test import Client
 
-from .factories import EmployeeFactory
+from .factories import EmployeeFactory, JobFactory
 
 
 @pytest.fixture
@@ -15,3 +15,11 @@ def employee_factory():
         return EmployeeFactory(**kwargs)
 
     return _employee_factory
+
+
+@pytest.fixture
+def job_factory():
+    def _job_factory(**kwargs):
+        return JobFactory(**kwargs)
+
+    return _job_factory

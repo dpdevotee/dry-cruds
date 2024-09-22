@@ -8,7 +8,7 @@ from django_filters import FilterSet
 from django_filters.views import FilterView
 from django_tables2 import A, Column, SingleTableMixin, Table
 
-from .buttons import ButtonLink
+from .buttons import PrimaryButtonLink, SecondaryButtonLink
 
 PK = r"(?P<pk>\d+)"
 
@@ -72,9 +72,8 @@ class TableViewSet:
 
             def get_links(self):
                 return [
-                    ButtonLink(
+                    PrimaryButtonLink(
                         text="Create",
-                        css_classes="btn btn-primary",
                         url_name=view_set.create_url_name,
                     ),
                 ]
@@ -98,21 +97,18 @@ class TableViewSet:
 
             def get_links(self):
                 return [
-                    ButtonLink(
+                    PrimaryButtonLink(
                         text="Update",
-                        css_classes="btn btn-primary",
                         url_name=view_set.update_url_name,
                         pk=self.kwargs["pk"],
                     ),
-                    ButtonLink(
+                    PrimaryButtonLink(
                         text="Delete",
-                        css_classes="btn btn-primary",
                         url_name=view_set.delete_url_name,
                         pk=self.kwargs["pk"],
                     ),
-                    ButtonLink(
+                    SecondaryButtonLink(
                         text="Back to list",
-                        css_classes="btn btn-secondary",
                         url_name=view_set.list_url_name,
                     ),
                 ]
@@ -133,7 +129,7 @@ class TableViewSet:
 
             def get_links(self):
                 return [
-                    ButtonLink(text="Back to list", css_classes="btn btn-secondary", url_name=view_set.list_url_name),
+                    SecondaryButtonLink(text="Back to list", url_name=view_set.list_url_name),
                 ]
 
         return re_path(f"^{self.base_url_pattern}/create/$", NewView.as_view(), name=self.create_url_name)
@@ -152,9 +148,8 @@ class TableViewSet:
 
             def get_links(self):
                 return [
-                    ButtonLink(
+                    SecondaryButtonLink(
                         text="Cancel",
-                        css_classes="btn btn-secondary",
                         url_name=view_set.detail_url_name,
                         pk=self.kwargs["pk"],
                     ),
@@ -175,9 +170,8 @@ class TableViewSet:
 
             def get_links(self):
                 return [
-                    ButtonLink(
+                    SecondaryButtonLink(
                         text="No",
-                        css_classes="btn btn-secondary",
                         url_name=view_set.detail_url_name,
                         pk=self.kwargs["pk"],
                     )

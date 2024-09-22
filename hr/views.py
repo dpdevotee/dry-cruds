@@ -1,11 +1,13 @@
+from django.urls import reverse
+from django.views.generic import TemplateView
 from django_filters import CharFilter, FilterSet
 from django_tables2 import Table
 
 from common.filters import DateFromToRangeFilter, RangeFilter
 from common.viewset import TableViewSet
 
-from .forms import EmployeeForm
-from .models import Employee
+from .forms import EmployeeForm, JobForm
+from .models import Employee, Job
 
 
 class EmployeeTable(Table):
@@ -49,3 +51,38 @@ employee_viewset = TableViewSet(
     base_url_name="employees",
     form_class=EmployeeForm,
 )
+
+
+class JobTable(Table):
+    class Meta:
+        model = Job
+        template_name = "django_tables2/bootstrap5.html"
+        fields = (
+            "job_title",
+            "min_salary",
+            "max_salary",
+        )
+
+
+class JobFilter(FilterSet):
+    job_title = CharFilter(lookup_expr="icontains", label="Job title")
+
+
+job_viewset = TableViewSet(
+    model=Job,
+    table_class=JobTable,
+    filterset_class=JobFilter,
+    base_url_pattern="jobs",
+    base_url_name="jobs",
+    form_class=JobForm,
+)
+
+
+class HomeView(TemplateView):
+    template_name = "hr/home.html"
+    extra_context = {
+        "links": {
+            employee_viewset.list_url_name: "Employees",
+            job_viewset.list_url_name: "Jobs",
+        }
+    }

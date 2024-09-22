@@ -1,0 +1,11 @@
+{% extends 'common/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+  <h1 class="mt-5 mb-4"> Human resources of Acme LTD </h1>
+  {% for name, text in links.items %}
+    <p><a href="{% url name %}">{{ text }}</a></p>
+  {% endfor %}
+</div>
+{% endblock %}

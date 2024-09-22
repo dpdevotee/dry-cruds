@@ -1,6 +1,6 @@
 import pytest
 
-from hr.models import Employee
+from hr.models import Employee, Job
 
 
 @pytest.mark.django_db
@@ -148,3 +148,62 @@ def test_employees_delete_view_deletes_employee(client, employee_factory):
     assert response.status_code == 302
     assert response.url == "/employees/"
     assert Employee.objects.filter(pk=employee.pk).count() == 0
+
+
+@pytest.mark.django_db
+def test_jobs_index_view_returns_expected_context(client, job_factory):
+    # given
+    job_factory()
+    job_factory()
+    job_factory()
+
+    # when
+    response = client.get("/jobs/")
+
+    # then
+    assert response.status_code == 200
+    assert "table" in response.context
+    assert "view" in response.context
+    assert "filter" in response.context
+    assert len([row for row in response.context["table"].paginated_rows]) == 3
+    links = response.context["view"].get_links()
+    assert links[0].text == "Create"
+    assert links[0].url == "/jobs/create/"
+
+
+@pytest.mark.django_db
+def test_jobs_index_view_finds_job_by_title(client, job_factory):
+    # given
+    job = job_factory(job_title="Sewage Truck Operator")
+    job_factory()
+    job_factory()
+
+    # when
+    response = client.get("/jobs/?job_title=sewage")
+
+    # then
+    assert response.status_code == 200
+    assert "table" in response.context
+    assert "view" in response.context
+    assert "filter" in response.context
+    rows = [row for row in response.context["table"].paginated_rows]
+    assert len(rows) == 1
+    assert rows[0].record.pk == job.pk
+
+
+@pytest.mark.django_db
+def test_jobs_create_view_creates_job(client, job_factory):
+    # when
+    response = client.post(
+        "/jobs/create/",
+        data={
+            "job_title": "Sewage Truck Operator",
+            "min_salary": 2000,
+            "max_salary": 5000,
+        },
+    )
+
+    # then
+    assert response.status_code == 302
+    new_job = Job.objects.get(job_title="Sewage Truck Operator")
+    assert response.url == f"/jobs/{new_job.pk}/"
