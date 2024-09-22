@@ -3,16 +3,14 @@
 
 {% block content %}
 {{ form.media.css }}
-<div class="container">
-  <form method="POST" novalidate>
-    {{ form|crispy }}
-    {% csrf_token %}
-    <button type="submit" class="btn btn-primary">Save</button>
-    {% for button in view.get_links %}
-      {{ button }}
-    {% endfor %}
+<form method="POST" novalidate>
+  {{ form|crispy }}
+  {% csrf_token %}
+  <button type="submit" class="btn btn-primary">Save</button>
+  {% for button in view.get_links %}
+    {{ button }}
+  {% endfor %}
 
-  </form>
-</div>
+</form>
 {{ form.media.js }}
 {% endblock %}
